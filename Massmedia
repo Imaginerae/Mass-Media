@@ -1,8 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import { BookOpen, Film, Gamepad2, Globe, Tv, Newspaper, Mic, Users, Mail, User, Book, ChevronsRight, Menu, X } from 'lucide-react';
-
-// --- Reusable Components ---
-
 const NavLink = ({ page, currentPage, setPage, setMenuOpen, title }) => (
   <button
     onClick={() => {
