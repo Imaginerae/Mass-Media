@@ -1,0 +1,383 @@
+import React, { useState, useEffect } from 'react';
+import { BookOpen, Film, Gamepad2, Globe, Tv, Newspaper, Mic, Users, Mail, User, Book, ChevronsRight, Menu, X } from 'lucide-react';
+
+// --- Reusable Components ---
+
+const NavLink = ({ page, currentPage, setPage, setMenuOpen, title }) => (
+  <button
+    onClick={() => {
+      setPage(page);
+      if(setMenuOpen) setMenuOpen(false);
+    }}
+    className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+      currentPage === page
+        ? 'bg-indigo-600 text-white shadow-md'
+        : 'text-gray-700 hover:bg-indigo-100 hover:text-indigo-700'
+    }`}
+  >
+    {title}
+  </button>
+);
+
+const ImageWithCaption = ({ src, alt, caption }) => (
+    <figure className="my-6">
+        <img 
+            src={src} 
+            alt={alt} 
+            className="rounded-lg shadow-md mx-auto"
+            onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found'; }}
+        />
+        <figcaption className="text-center text-sm text-gray-500 mt-2 italic">{caption}</figcaption>
+    </figure>
+);
+
+const SourceCitation = ({ children }) => (
+    <div className="text-xs text-gray-500 mt-2">[Source: {children}]</div>
+);
+
+const SectionHeader = ({ title, subtitle }) => (
+    <div className="text-center mb-12">
+        <h1 className="text-4xl font-extrabold text-gray-800 tracking-tight">{title}</h1>
+        <p className="text-lg text-gray-600 mt-2">{subtitle}</p>
+    </div>
+);
+
+const ContentCard = ({ icon, title, children }) => (
+    <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 hover:shadow-indigo-100 transition-shadow duration-300">
+        <div className="flex items-center gap-4 mb-4">
+            <div className="bg-indigo-100 text-indigo-600 p-3 rounded-full">
+                {icon}
+            </div>
+            <h3 className="text-xl font-bold text-gray-800">{title}</h3>
+        </div>
+        <div className="text-gray-600 space-y-3">{children}</div>
+    </div>
+);
+
+
+// --- Page Components ---
+
+const HomePage = ({ setPage }) => (
+  <div className="animate-fade-in">
+    <header className="bg-indigo-50 text-center py-20 px-4 rounded-b-3xl">
+      <h1 className="text-4xl md:text-6xl font-extrabold text-gray-800 mb-4 tracking-tight">
+        The Ad Effect
+      </h1>
+      <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+        A critical exploration of advertising's influence on consumer culture.
+      </p>
+       <div className="mt-6 text-sm text-indigo-800 bg-indigo-100 rounded-full px-4 py-2 inline-block">
+            <p>This website was created for a Mass Media course assignment.</p>
+       </div>
+      <button 
+        onClick={() => setPage('TopicOverview')}
+        className="mt-8 bg-indigo-600 text-white font-bold py-3 px-8 rounded-full hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105 shadow-lg"
+      >
+        Explore the Topic <ChevronsRight className="inline ml-2" size={20} />
+      </button>
+    </header>
+
+    <section className="py-16 px-4 max-w-5xl mx-auto">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold text-gray-800">Site Overview</h2>
+        <p className="text-gray-600 mt-2">A brief look at what this site covers.</p>
+      </div>
+      <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+        <p className="text-gray-700 leading-relaxed">
+          Welcome! This website serves as an academic project exploring the profound and often subtle ways advertising shapes our society. We will delve into the history and psychological tactics of advertising, analyze its coverage across various mass media platforms, and critique its overall impact on our culture, identities, and economic behaviors.
+        </p>
+        <ImageWithCaption 
+            src="https://images.unsplash.com/photo-1557825835-b4527f242af7?q=80&w=2070&auto=format&fit=crop"
+            alt="A montage of advertising images and consumer products."
+            caption="Advertising is a pervasive force in modern life, visible in nearly every public and digital space. [Source: Unsplash]"
+        />
+        <p className="text-gray-700 leading-relaxed mt-4">
+          Navigate through the pages to learn more about me, get a detailed overview of the topic, see how mass media covers it, and get in touch with any questions.
+        </p>
+      </div>
+    </section>
+  </div>
+);
+
+const AboutPage = () => (
+    <div className="animate-fade-in p-4 md:p-8 max-w-4xl mx-auto">
+        <SectionHeader title="About the Creator" subtitle="Background and Motivation" />
+        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Who I Am</h2>
+            <p className="text-gray-700 leading-relaxed mb-6">
+                I am a college student currently studying Mass Media and Communications. This website is a key component of a project for my Mass Media & Society class. I have always been fascinated by the power of media to shape public perception, and this project provides an opportunity to dive deep into one of the most influential forms of media in our daily lives.
+            </p>
+
+            <ImageWithCaption 
+                src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop"
+                alt="A student working on a laptop in a collaborative environment."
+                caption="This project combines academic research with digital media creation. [Source: Unsplash]"
+            />
+
+            <h2 className="text-2xl font-bold text-gray-800 mb-4 mt-8">Why This Topic?</h2>
+            <p className="text-gray-700 leading-relaxed">
+                I chose to focus on the effects of advertising on consumer culture because it's a force that impacts every single one of us, every day. From the shows we watch to the feeds we scroll, we are constantly interacting with persuasive messages. I wanted to dig deeper to understand the mechanisms behind this influence, its historical roots, and its consequences for society. This project is an opportunity to critically examine a part of our world that is often taken for granted and to understand how it constructs our reality, values, and desires.
+            </p>
+        </div>
+    </div>
+);
+
+const TopicOverviewPage = () => (
+    <div className="animate-fade-in p-4 md:p-8 max-w-5xl mx-auto">
+        <SectionHeader title="Topic Overview" subtitle="Advertising's Role in Consumer Culture" />
+        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 space-y-8">
+            <div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-3">Background: What, Who, and When?</h2>
+                <p className="text-gray-700 leading-relaxed">
+                    Consumer culture is a social and economic order that encourages the acquisition of goods and services in ever-greater amounts. Advertising is its primary engine. <strong>(What)</strong> It is a form of communication used to persuade an audience to take some new action. <strong>(When)</strong> While rudimentary forms of advertising have existed for centuries, modern advertising began to take shape in the late 19th and early 20th centuries with the rise of mass production and mass media like newspapers and radio. <strong>(Who)</strong> Initially driven by manufacturers and retailers, the industry now involves a complex ecosystem of brands, advertising agencies, media companies, and data brokers, all working to capture consumer attention and spending.
+                </p>
+                <SourceCitation>Williams, R. (1980). Advertising: The Magic System. In *Problems in Materialism and Culture*.</SourceCitation>
+            </div>
+            <div>
+                <h2 className="text-2xl font-bold text-gray-800 mb-3">The "Why" and "How": Mechanisms of Influence</h2>
+                <p className="text-gray-700 leading-relaxed">
+                   <strong>(Why)</strong> At its core, advertising works by creating associations between a product and a desirable feeling, lifestyle, or identity. It doesn't just sell a car; it sells freedom, adventure, and status. <strong>(How)</strong> This is achieved through sophisticated techniques including emotional appeals, the use of psychological triggers like scarcity ("limited time only!"), social proof (testimonials and influencer marketing), and the constant repetition of messages across multiple platforms. By identifying or creating problems and positioning products as the necessary solutions, advertising shifts consumer perception from mere 'wants' to essential 'needs,' embedding brands into the fabric of daily life.
+                </p>
+                <SourceCitation>Berger, J. (2016). *Contagious: Why Things Catch On*. Simon & Schuster.</SourceCitation>
+            </div>
+
+            <h2 className="text-2xl font-bold text-gray-800 pt-4 border-t border-gray-200">Required Sources</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+                {/* Source 1: Embedded Video */}
+                <div>
+                    <h3 className="font-bold text-lg mb-2">1. Video: The Century of the Self</h3>
+                    <div className="aspect-w-16 aspect-h-9">
+                        <iframe 
+                            className="rounded-lg shadow-md"
+                            src="https://www.youtube.com/watch?v=eJ3RzGoQC4s&ab_channel=DavidLessig" 
+                            title="YouTube video player" 
+                            frameBorder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowFullScreen>
+                        </iframe>
+                    </div>
+                    <SourceCitation>Curtis, A. (Director). (2002). *The Century of the Self* [Documentary]. BBC Four.</SourceCitation>
+                </div>
+
+                {/* Source 2: Link to Website */}
+                <div>
+                    <h3 className="font-bold text-lg mb-2">2. Website: Advertising Age</h3>
+                    <p className="text-gray-600 mb-3">A leading global source for news, intelligence and conversation for the marketing and media community.</p>
+                    <a href="https://adage.com" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 font-semibold">
+                        Visit AdAge.com &rarr;
+                    </a>
+                    <SourceCitation>Advertising Age. (2025). Retrieved from https://adage.com</SourceCitation>
+                </div>
+                
+                {/* Source 3: Podcast/Audio */}
+                <div>
+                    <h3 className="font-bold text-lg mb-2">3. Podcast: Under the Influence</h3>
+                    <p className="text-gray-600">A podcast that gives listeners a rare backstage pass into the hallways, boardrooms and recording studios of the advertising industry.</p>
+                     <a href="https://terryoreilly.ca/under-the-influence/" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 font-semibold">
+                        Listen Here (placeholder link) &rarr;
+                    </a>
+                    <SourceCitation>O'Reilly, T. (Host). (2025). *Under the Influence* [Podcast]. CBC Radio.</SourceCitation>
+                </div>
+
+                {/* Source 4: Electronic Document */}
+                <div>
+                    <h3 className="font-bold text-lg mb-2">4. Document: FTC Advertising Guide</h3>
+                    <p className="text-gray-600 mb-3">A PDF from the Federal Trade Commission outlining truth-in-advertising laws and guidelines.</p>
+                    <a href="https://www.ftc.gov/business-guidance/advertising-marketing" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 font-semibold">
+                        View FTC Guidelines &rarr;
+                    </a>
+                    <SourceCitation>Federal Trade Commission. (2024). *Advertising and Marketing*. Retrieved from ftc.gov.</SourceCitation>
+                </div>
+
+                {/* Source 5: Image */}
+                <div>
+                    <h3 className="font-bold text-lg mb-2">5. Image: Vintage Coca-Cola Ad</h3>
+                     <ImageWithCaption 
+                        src="https://images.unsplash.com/photo-1622999434896-16935d8848c4?q=80&w=1964&auto=format&fit=crop"
+                        alt="A vintage Coca-Cola advertisement."
+                        caption="This 1950s ad links the product to leisure, happiness, and social gatherings, a classic strategy."
+                    />
+                    <SourceCitation>Unsplash. (Image of vintage ad).</SourceCitation>
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
+const MassMediaCoveragePage = () => (
+    <div className="animate-fade-in p-4 md:p-8 max-w-5xl mx-auto">
+        <SectionHeader title="Mass Media Coverage" subtitle="Critiquing Advertising's Portrayal" />
+        <div className="space-y-10">
+            <p className="text-center text-gray-700 bg-gray-100 p-4 rounded-lg">This page explores how different mass media platforms cover, utilize, and are shaped by advertising. Below are 10 examples from 5 different media types.</p>
+            
+            <ContentCard icon={<Film size={24} />} title="In Film">
+                <p><strong>Example 1: "The Truman Show" (1998).</strong> This film serves as a powerful critique of reality television and the seamless integration of advertising into content. Every object in Truman's world is a subtly advertised product for the global viewing audience, effectively erasing the line between narrative and commerce. The film prophetically explores the concept of a life lived as a 24/7 commercial.</p>
+                <p><strong>Example 2: "Minority Report" (2002).</strong> This sci-fi film depicts a future with hyper-personalized, holographic ads that scan irises to address individuals by name. It critiques the potential endpoint of data-driven marketing, raising profound questions about privacy, surveillance, and intrusive commercialism in public spaces.</p>
+            </ContentCard>
+
+            <ContentCard icon={<Tv size={24} />} title="On Television">
+                <p><strong>Example 3: "Mad Men" (2007-2015).</strong> This acclaimed AMC series provides a fictionalized, historical look inside a 1960s New York advertising agency. It explores the creative process behind iconic campaigns for brands like Coca-Cola and Kodak, while also critiquing the industry's role in shaping American social norms, consumer desire, and identity.</p>
+                <p><strong>Example 4: The Super Bowl Commercials.</strong> An annual cultural event where the advertisements are often more discussed than the game itself. They represent the pinnacle of high-budget, high-stakes advertising, focusing on celebrity, spectacle, and emotional storytelling to build brand affinity, often with minimal focus on the actual product features.</p>
+            </ContentCard>
+
+            <ContentCard icon={<Newspaper size={24} />} title="In Print (Newspapers & Magazines)">
+                <div>
+                    <p><strong>Example 5: "Vogue" Magazine.</strong> High-fashion magazines like Vogue demonstrate a symbiotic relationship with advertising. Often, more than half the pages are glossy, full-page ads from luxury brands. The editorial content (photo spreads, articles) and the ads blend seamlessly, creating a total environment of aspirational consumerism that reinforces the same aesthetic values.</p>
+                    <SourceCitation>Jhally, S. (Director). (1999). *Advertising & the End of the World* [Documentary]. Media Education Foundation.</SourceCitation>
+                </div>
+                <p><strong>Example 6: Native Advertising in Online News.</strong> Major news outlets like The New York Times and BuzzFeed run "sponsored content" or "native advertising"—articles that are paid for by advertisers but designed to look and read like legitimate news stories. This practice critiques the blurring lines between journalism and promotion, potentially eroding reader trust.</p>
+            </ContentCard>
+
+            <ContentCard icon={<Globe size={24} />} title="On the Internet">
+                <p><strong>Example 7: Influencer Marketing on Instagram/TikTok.</strong> A dominant form of modern advertising where individuals are paid to integrate products into their personal content. Often marked with #ad or #sponsored, this method leverages social proof and parasocial relationships (the one-sided bond followers feel with creators) to sell products in a way that feels more "authentic" than traditional ads.</p>
+                <p><strong>Example 8: YouTube's Ad Ecosystem.</strong> The platform is funded by pre-roll, mid-roll, and banner ads. This model has profoundly changed content creation, with creators often tailoring video length, topics, and language to be 'ad-friendly' to maximize revenue, critiquing how advertising can directly influence the type of media being produced.</p>
+                <p><strong>Example 9: Retargeting Ads.</strong> The practice where a user looks at a product on one site, and then sees ads for that exact product across other websites, social media, and apps. This is a direct, and often unsettling, example of how user data and browsing history are tracked across the internet to create a persistent, personalized advertising experience.</p>
+            </ContentCard>
+
+            <ContentCard icon={<BookOpen size={24} />} title="In Books">
+                <p><strong>Example 10: "No Logo" by Naomi Klein (1999).</strong> A seminal non-fiction book that critiques the corporate shift from marketing products to marketing brand identities. Klein argues this focus has led to exploitative labor practices, the erosion of public space, and a commercialized culture where brand loyalty is paramount. It is a foundational text in the critique of consumer culture.</p>
+            </ContentCard>
+        </div>
+    </div>
+);
+
+const ContactPage = () => {
+    const [submitted, setSubmitted] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setSubmitted(true);
+    };
+
+    return (
+        <div className="animate-fade-in p-4 md:p-8 max-w-4xl mx-auto">
+            <SectionHeader title="Contact Me" subtitle="Questions, Comments, or Concerns?" />
+            <div className="grid md:grid-cols-2 gap-10 items-center">
+                <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+                    {submitted ? (
+                        <div className="text-center">
+                            <h2 className="text-2xl font-bold text-indigo-600 mb-3">Thank You!</h2>
+                            <p className="text-gray-700">Your message has been received. I will get back to you as soon as possible.</p>
+                        </div>
+                    ) : (
+                        <form onSubmit={handleSubmit}>
+                            <div className="space-y-4">
+                                <div className="relative">
+                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                                    <input type="text" placeholder="Your Name" required className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"/>
+                                </div>
+                                <div className="relative">
+                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                                    <input type="email" placeholder="Your Email" required className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"/>
+                                </div>
+                                <div className="relative">
+                                    <textarea placeholder="Your Message" required rows="5" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" className="mt-6 w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-transform duration-300 transform hover:scale-105 shadow-lg">
+                                Submit
+                            </button>
+                        </form>
+                    )}
+                </div>
+                <div className="text-center">
+                    <ImageWithCaption 
+                        src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=2070&auto=format&fit=crop"
+                        alt="An abstract image related to communication."
+                        caption="Feel free to reach out with any inquiries. [Source: Unsplash]"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
+// --- Main App Component ---
+
+export default function App() {
+  const [currentPage, setPage] = useState('Home');
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) {
+      mainContent.classList.remove('animate-fade-in');
+      void mainContent.offsetWidth;
+      setTimeout(() => mainContent.classList.add('animate-fade-in'), 10);
+    }
+    window.scrollTo(0, 0);
+  }, [currentPage]);
+
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'Home': return <HomePage setPage={setPage} />;
+      case 'About': return <AboutPage />;
+      case 'TopicOverview': return <TopicOverviewPage />;
+      case 'MassMediaCoverage': return <MassMediaCoveragePage />;
+      case 'Contact': return <ContactPage />;
+      default: return <HomePage setPage={setPage} />;
+    }
+  };
+  
+  const pages = [
+      { key: 'Home', title: 'Home' },
+      { key: 'About', title: 'About' },
+      { key: 'TopicOverview', title: 'Topic Overview' },
+      { key: 'MassMediaCoverage', title: 'Mass Media Coverage' },
+      { key: 'Contact', title: 'Contact' }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+      <style>{`
+        .animate-fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .aspect-w-16 { position: relative; padding-bottom: 56.25%; }
+        .aspect-h-9 { height: 0; }
+        .aspect-w-16 > iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+      `}</style>
+
+      <nav className="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center">
+              <button onClick={() => setPage('Home')} className="flex-shrink-0 text-indigo-600 font-bold text-xl tracking-tight flex items-center gap-2">
+                <Book size={24} /> AdEffect
+              </button>
+            </div>
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-1">
+                {pages.map(p => <NavLink key={p.key} page={p.key} title={p.title} currentPage={currentPage} setPage={setPage} />)}
+              </div>
+            </div>
+            <div className="md:hidden">
+              <button onClick={() => setMenuOpen(!isMenuOpen)} className="p-2 rounded-md text-gray-600 hover:bg-gray-100">
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        {isMenuOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {pages.map(p => <NavLink key={p.key} page={p.key} title={p.title} currentPage={currentPage} setPage={setPage} setMenuOpen={setMenuOpen} />)}
+            </div>
+          </div>
+        )}
+      </nav>
+
+      <main id="main-content">
+        {renderPage()}
+      </main>
+
+      <footer className="bg-gray-800 text-white mt-16">
+        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+          <p>&copy; {new Date().getFullYear()} AdEffect Project. All Rights Reserved.</p>
+          <p className="text-sm text-gray-400 mt-2">This website was created for a class assignment and is for educational purposes only.</p>
+        </div>
+      </footer>
+    </div>
+  );
+}
